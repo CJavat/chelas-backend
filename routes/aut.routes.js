@@ -14,7 +14,7 @@ const { autenticacion } = require("../middleware/auth");
 
 router.post("/iniciar-sesion", iniciarSesion);
 
-router.post("/registarse", registrarse);
+router.post("/registrarse", registrarse);
 
 router.put("/editar-perfil/:idUsuario", autenticacion, editarPerfil);
 
