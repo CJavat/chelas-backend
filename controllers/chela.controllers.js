@@ -50,15 +50,37 @@ const registrarChela = async (req, res, next) => {
   }
 };
 
-const editarChela = (req, res, next) => {
-  //TODO: FALTA TERMINAR
+const editarChela = async (req, res, next) => {
   try {
+    const usuario = req.usuario;
+    const { idChela } = req.params;
+    const { nombre, marca, tipo, gradosAlcohol, precio } = req.body;
+
+    const obtenerChela = await ChelaModel.findById(idChela);
+    if (!obtenerChela) {
+      return res.status(404).json({ msg: "No se encontró la chela" });
+    }
+
+    if (usuario.id !== obtenerChela.idUsuario.toString()) {
+      return res
+        .status(403)
+        .json({ msg: "No tienes premiso para editar éste producto" });
+    }
+
+    if (nombre) obtenerChela.nombre = nombre;
+    if (marca) obtenerChela.marca = marca;
+    if (tipo) obtenerChela.tipo = tipo;
+    if (gradosAlcohol) obtenerChela.gradosAlcohol = gradosAlcohol;
+    if (precio) obtenerChela.precio = precio;
+
+    await obtenerChela.save();
+
+    return res.status(200).json({ msg: "Producto Editado Correctamente" });
   } catch (error) {
     return res
       .status(400)
       .json({ msg: `Ocurrió un error en la consulta: ${error.message}` });
   }
-  res.json({ msg: "Editar Chela" });
 };
 
 const eliminarChela = async (req, res, next) => {

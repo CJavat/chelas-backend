@@ -3,16 +3,19 @@ const moment = require("moment");
 
 const autenticacion = async (req, res, next) => {
   try {
+    //* VERIFICAR QUE HAYA UN HEADER DE AUTORIZACIÓN
     if (!req.headers.authorization) {
       return res.status(404).json({
         msg: "No se envió ningún token de autorización",
       });
     }
 
+    //* OBTENER EL JWT
     const tokenId = req.headers.authorization.split(" ")[1];
 
     const tokenDecodificado = jwt.decode(tokenId, process.env.LLAVE_SECRETA);
 
+    //* COMPROBAR QUE NO HAYA EXPIRADO
     if (tokenDecodificado.exp <= moment().unix()) {
       return res.status(403).json({
         msg: "El token ha expirado, inicia sesión otra vez",
@@ -20,6 +23,7 @@ const autenticacion = async (req, res, next) => {
       });
     }
 
+    //* ENVIAR EL TOKEN DECODIFICADO.
     req.usuario = tokenDecodificado;
 
     next();

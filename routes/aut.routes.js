@@ -16,7 +16,7 @@ router.post("/iniciar-sesion", iniciarSesion);
 
 router.post("/registarse", registrarse);
 
-router.put("/editar-perfil", autenticacion, editarPerfil);
+router.put("/editar-perfil/:idUsuario", autenticacion, editarPerfil);
 
 router.delete("/eliminar-perfil", autenticacion, eliminarPerfil);
 
