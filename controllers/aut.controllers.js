@@ -37,9 +37,15 @@ const iniciarSesion = async (req, res, next) => {
     userEncontrado.token = token;
     await userEncontrado.save();
 
+    const usuario = {
+      id: userEncontrado._id.toString(),
+      nombre: userEncontrado.nombre,
+      apellido: userEncontrado.apellido,
+      token: userEncontrado.token,
+    };
     return res
       .status(200)
-      .json({ msg: "Autenticaión Correcta", userEncontrado });
+      .json({ msg: "Autenticaión Correcta", userEncontrado: usuario });
   } catch (error) {
     return res.status(400).json({ msg: `Ocurrió un error: ${error.message}` });
   }
@@ -73,7 +79,7 @@ const registrarse = async (req, res, next) => {
     }
 
     if (errores.length > 0) {
-      return res.status(200).json({ msg: errores });
+      return res.status(400).json({ msg: errores });
     }
 
     //* GUARDAR USUARIO

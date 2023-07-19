@@ -85,7 +85,7 @@ const editarChela = async (req, res, next) => {
 
 const eliminarChela = async (req, res, next) => {
   const usuario = req.usuario;
-  const { idChela } = req.body;
+  const { idChela } = req.params;
 
   try {
     const obtenerChela = await ChelaModel.findById(idChela);

@@ -21,6 +21,6 @@ router.post("/registar-chela", autenticacion, registrarChela);
 
 router.put("/editar-chela/:idChela", autenticacion, editarChela);
 
-router.delete("/eliminar-chela", autenticacion, eliminarChela);
+router.delete("/eliminar-chela/:idChela", autenticacion, eliminarChela);
 
 module.exports = router;
