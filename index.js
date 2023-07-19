@@ -14,6 +14,7 @@ const autRoute = require("./routes/aut.routes");
 const chelaRoute = require("./routes/chela.routes");
 
 const app = express();
+app.use(cors());
 
 //* HABILITAR BODY-PARSER
 app.use(bodyParser.json());
