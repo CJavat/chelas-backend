@@ -10,14 +10,17 @@ const {
   eliminarChela,
 } = require("../controllers/chela.controllers");
 
+//* IMPORTAR MIDDLEWARES
+const { autenticacion } = require("../middleware/auth");
+
 router.get("/obtener-chelas", obtenerChelas);
 
-router.get("/obtener-chela", obtenerChela);
+router.get("/obtener-chela/:idChela", obtenerChela);
 
-router.post("/registar-chela", registrarChela);
+router.post("/registar-chela", autenticacion, registrarChela);
 
-router.put("editar-chela", editarChela);
+router.put("editar-chela", autenticacion, editarChela);
 
-router.delete("/eliminar-chela", eliminarChela);
+router.delete("/eliminar-chela", autenticacion, eliminarChela);
 
 module.exports = router;

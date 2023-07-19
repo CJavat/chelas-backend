@@ -99,6 +99,8 @@ const registrarse = async (req, res, next) => {
 };
 
 const editarPerfil = async (req, res, next) => {
+  //TODO: FALTA TERMINAR COMPONENTE
+  //! AGREGAR LA VALIDACIÓN CON EL JWT => req.usuario;
   try {
     const { id, nombre, apellido, password } = req.body;
 
@@ -135,6 +137,8 @@ const editarPerfil = async (req, res, next) => {
 };
 
 const eliminarPerfil = async (req, res, next) => {
+  //TODO: FALTA TERMINAR COMPONENTE
+  //! AGREGAR LA VALIDACIÓN CON EL JWT => req.usuario;
   try {
     const { email } = req.body;
 

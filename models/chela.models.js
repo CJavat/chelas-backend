@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const bcrypt = require("bcrypt");
 
 const chelaSchema = new Schema({
   nombre: {
@@ -27,6 +26,11 @@ const chelaSchema = new Schema({
   precio: {
     type: String,
     trim: true,
+    required: true,
+  },
+  idUsuario: {
+    type: Schema.Types.ObjectId,
+    ref: "Aut",
     required: true,
   },
 });
