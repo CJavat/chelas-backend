@@ -2,6 +2,24 @@ const AutModel = require("../models/aut.models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const shortId = require("shortid");
+const ChelaModel = require("../models/chela.models");
+
+const miUsuario = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const usuarioEncontrado = await AutModel.findById(id).select(
+      "-__v -password -token"
+    );
+    if (!usuarioEncontrado) {
+      return res.status(404).json({ msg: "Usuario No Encontrado" });
+    }
+
+    return res.status(200).json(usuarioEncontrado);
+  } catch (error) {
+    return res.status(400).json({ msg: `Ocurrió un error: ${error.message}` });
+  }
+};
 
 const iniciarSesion = async (req, res, next) => {
   const { email, password } = req.body;
@@ -150,10 +168,10 @@ const editarPerfil = async (req, res, next) => {
 
 const eliminarPerfil = async (req, res, next) => {
   try {
-    const { email } = req.body;
+    const { idUsuario } = req.params;
     const usuario = req.usuario;
 
-    const usuarioEncontrado = await AutModel.findOne({ email });
+    const usuarioEncontrado = await AutModel.findOne({ _id: idUsuario });
 
     //* COMPROBAR QUE EL USUARIO EXISTA
     if (!usuarioEncontrado || usuarioEncontrado.length === 0) {
@@ -168,6 +186,7 @@ const eliminarPerfil = async (req, res, next) => {
     }
 
     //* ELIMINAR EL USUARIO DE LA BD
+    await ChelaModel.deleteMany({ idUsuario: usuarioEncontrado._id });
     await usuarioEncontrado.deleteOne();
 
     return res.status(200).json({ msg: "Usuario eliminado correctamente" });
@@ -181,6 +200,7 @@ const eliminarPerfil = async (req, res, next) => {
 };
 
 module.exports = {
+  miUsuario,
   iniciarSesion,
   registrarse,
   editarPerfil,

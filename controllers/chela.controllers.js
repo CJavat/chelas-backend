@@ -40,9 +40,11 @@ const registrarChela = async (req, res, next) => {
     }
     req.body.idUsuario = usuarioLogeado.id;
 
-    await ChelaModel.create(req.body);
+    const chelaCreada = await ChelaModel.create(req.body);
 
-    return res.status(200).json({ msg: "Chela Agregada Correctamente" });
+    return res
+      .status(200)
+      .json({ msg: "Chela Agregada Correctamente", chelaCreada });
   } catch (error) {
     return res
       .status(400)

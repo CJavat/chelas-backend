@@ -3,6 +3,7 @@ const router = express.Router();
 
 //* OBTENER CONTROLADORES
 const {
+  miUsuario,
   iniciarSesion,
   registrarse,
   editarPerfil,
@@ -12,12 +13,14 @@ const {
 //* IMPORTAR MIDDLEWARES
 const { autenticacion } = require("../middleware/auth");
 
+router.get("/mi-usuario/:id", miUsuario);
+
 router.post("/iniciar-sesion", iniciarSesion);
 
 router.post("/registrarse", registrarse);
 
 router.put("/editar-perfil/:idUsuario", autenticacion, editarPerfil);
 
-router.delete("/eliminar-perfil", autenticacion, eliminarPerfil);
+router.delete("/eliminar-perfil/:idUsuario", autenticacion, eliminarPerfil);
 
 module.exports = router;

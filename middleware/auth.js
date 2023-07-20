@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
+const AutModel = require("../models/aut.models");
 
 const autenticacion = async (req, res, next) => {
   try {
@@ -21,6 +22,12 @@ const autenticacion = async (req, res, next) => {
         msg: "El token ha expirado, inicia sesión otra vez",
         tokenExpirado: true,
       });
+    }
+
+    //* COMPROBAR QUE EL TOKEN SIGA REGISTRADO EN LA BD.
+    const tokenValido = await AutModel.findById(tokenDecodificado.id);
+    if (!tokenValido || tokenValido.length === 0) {
+      return res.status(404).json({ msg: "El token ya no existe" });
     }
 
     //* ENVIAR EL TOKEN DECODIFICADO.
